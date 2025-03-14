@@ -12,23 +12,26 @@
     </div>
     <div class="row">
         <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput />
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>DOB</mat-label>
+            <mat-label>Email</mat-label>
             <input matInput />
         </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Enter DOB</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+          </mat-form-field>
     </div>
     <div class="row">
         <mat-radio-group aria-label="Gender">
             <mat-label>Gender</mat-label>
             <mat-radio-button value="1">Male</mat-radio-button>
             <mat-radio-button value="2">Female</mat-radio-button>
-          </mat-radio-group>
+        </mat-radio-group>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">CANCEL</button>
+    <button mat-button (click)="cancel()">CANCEL</button>
     <button mat-raised-button cdkFocusInitial>ADD</button>
 </mat-dialog-actions>
