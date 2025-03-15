@@ -1,37 +1,54 @@
-<h2 mat-dialog-title>ADD EMPLOYEE</h2>
+<h2 mat-dialog-title>Add Employee</h2>
+<mat-divider></mat-divider>
 <mat-dialog-content class="dialog-content">
-    <div class="row">
-        <mat-form-field>
-            <mat-label>First Name</mat-label>
-            <input matInput />
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Last Name</mat-label>
-            <input matInput />
-        </mat-form-field>
-    </div>
-    <div class="row">
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput />
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-            <mat-label>Enter DOB</mat-label>
-            <input matInput [matDatepicker]="picker">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-          </mat-form-field>
-    </div>
-    <div class="row">
-        <mat-radio-group aria-label="Gender">
-            <mat-label>Gender</mat-label>
-            <mat-radio-button value="1">Male</mat-radio-button>
-            <mat-radio-button value="2">Female</mat-radio-button>
-        </mat-radio-group>
-    </div>
+    <form [formGroup]="employeeForm" (ngSubmit)="addEmployee()">
+        <div class="row">
+            <mat-form-field>
+                <mat-label aria-label="Enter First Name">First Name</mat-label>
+                <input matInput type="text" formControlName="firstName"/>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label aria-label="Enter Last Name">Last Name</mat-label>
+                <input matInput type="text" formControlName="lastName"/>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field>
+                <mat-label aria-label="Enter Email">Email</mat-label>
+                <input type="email" matInput formControlName="email"/>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <mat-label aria-label="Enter Date of Birth">Enter DOB</mat-label>
+                <input matInput formControlName="dob" [matDatepicker]="picker">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="row radio-group">
+            <div class="radio-group">
+                <mat-label aria-label="Select Gender">Gender*</mat-label>
+                <mat-radio-group aria-label="Gender" formControlName="gender">
+                    @for (gender of genderList; track gender.value)
+                    {
+                    <mat-radio-button [value]="gender.value">{{gender.viewValue}}</mat-radio-button>
+                    }
+                </mat-radio-group>
+            </div>
+            <mat-form-field>
+                <mat-label aria-label="Select Education">Education</mat-label>
+                <mat-select formControlName="education" name="education">
+                    @for (el of educationList; track el.value)
+                    {
+                    <mat-option [value]="el.value">{{el.viewValue}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </form>
 </mat-dialog-content>
+<mat-divider></mat-divider>
 <mat-dialog-actions>
-    <button mat-button (click)="cancel()">CANCEL</button>
-    <button mat-raised-button cdkFocusInitial>ADD</button>
+    <button mat-stroked-button (click)="cancel()">CANCEL</button>
+    <button mat-flat-button [disabled]="!employeeForm.valid" (click)="addEmployee()" cdkFocusInitial type="submit">ADD</button>
 </mat-dialog-actions>
